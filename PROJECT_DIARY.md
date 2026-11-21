@@ -6,13 +6,17 @@ A running record of progress, decisions, and the next step. Dates use America/Lo
 
 - **Working sample:** 68 track entries with release dates between January 1 and September 1, 2026, inclusive. All have ISRCs, with no repeated ISRCs within this filtered sample.
 - **Working tables:** `tracks_df` contains all 100 entries; `album_df` holds their expanded album metadata and converted release dates. `filtered_album_df` and `filtered_tracks_df` contain the matching 68 entries, linked by their retained indexes.
-- **Next step:** Inspect the `artists` lists, create a table of track–artist credits, and count unique artist IDs including collaborators. Artist counting has not yet been implemented in the saved notebook.
+- **Artist analysis:** `track_artist_df` now contains 143 track–artist credits across the 68 eligible tracks, representing 133 unique artist IDs. Artist IDs are complete.
+- **Next step:** Review tracks per artist to assess sample concentration, then return to stream-observation feasibility.
 - **Still unresolved:** These are search-selected release entries, not a representative census or verified first releases of recordings. Public stream observations have not been collected, so the under-1,000 question is still pending.
 
 ## November 21, 2026 — Resuming and recording progress
 
 - Reviewed the current position: 68 entries within the window, converted release dates in the album table, and no repeated ISRCs in the filtered track table. Selected unique artist counting as the next research task.
 - Created this diary to keep daily progress and the next action easy to find. No artist-counting code was added as part of the diary update.
+
+- Expanded the artist lists into one row per track–artist credit, extracted artist IDs and names, and counted 133 unique artists across 143 credits. Retained track IDs so credits can be linked back to the 68 eligible tracks.
+- Added a DataFrame reference near the top of the notebook documenting each table’s contents, source, row meaning, and current counts. Included reminders about rerunning dependent cells and preserving index alignment; existing code and comments were left unchanged.
 
 ## November 17, 2026 — Data preparation, dates, and duplicate checks
 
