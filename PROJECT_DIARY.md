@@ -2,21 +2,32 @@
 
 A running record of progress, decisions, and the next step. Dates use America/Los_Angeles. Earlier entries were reconstructed from the project conversation and Git history; commit dates may differ from when work began.
 
-## Current position — November 21, 2026
+## Current position — November 23, 2026
 
 - **Working sample:** 68 track entries with release dates between January 1 and September 1, 2026, inclusive. All have ISRCs, with no repeated ISRCs within this filtered sample.
 - **Working tables:** `tracks_df` contains all 100 entries; `album_df` holds their expanded album metadata and converted release dates. `filtered_album_df` and `filtered_tracks_df` contain the matching 68 entries, linked by their retained indexes.
 - **Artist analysis:** `track_artist_df` now contains 143 track–artist credits across the 68 eligible tracks, representing 133 unique artist IDs. Artist IDs are complete.
-- **Next step:** Review tracks per artist to assess sample concentration, then return to stream-observation feasibility.
-- **Still unresolved:** These are search-selected release entries, not a representative census or verified first releases of recordings. Public stream observations have not been collected, so the under-1,000 question is still pending.
+- **Next step:** Investigate search-result selection and alternative sampling methods before collecting more counts. The sample must reach low-stream releases; estimating their prevalence requires selection independent of stream counts.
+- **Stream observations:** Five tracks were checked in the Spotify web player on November 23; all displayed more than one million plays. Counts are recorded in `observations.md` and notebook notes.
+- **Still unresolved:** These are search-selected release entries, not a representative census or verified first releases of recordings. Scalable stream collection, access to low-stream tracks, and interpretation of blank displays remain unverified.
 
-## November 21, 2026 — Resuming and recording progress
+## November 23, 2026 — Public stream observations and sampling limitations
 
-- Reviewed the current position: 68 entries within the window, converted release dates in the album table, and no repeated ISRCs in the filtered track table. Selected unique artist counting as the next research task.
-- Created this diary to keep daily progress and the next action easy to find. No artist-counting code was added as part of the diary update.
+- Created `stream_test_df` from the first five eligible tracks and extracted readable Spotify links. Added it to the DataFrame reference and organized steps 7 (artist credits) and 8 (public stream-count visibility) in the notebook.
+- Opened the five links and manually observed counts in the web player: 4,592,700; 2,418,105; 1,704,503; 7,183,220; and 4,355,925. Recorded each observation with its track identity and date in notebook Markdown cells and the simple `observations.md` table.
+- Chose a Markdown observation log instead of appending rows to an in-memory DataFrame, avoiding duplicate entries when notebook cells rerun. Kept the table concise, with observation date first and viewing method recorded as web player.
+- All five tracks exceeded one million plays. This confirms visible numerical counts for those tracks, but does not establish that low-stream tracks can be found or classified reliably. The five tracks were the first eligible results, not a random sample.
+- Paused further manual checks to investigate sampling. Finding low-stream tracks and estimating the percentage of all eligible tracks below 1,000 are different tasks; deliberately selecting low-stream tracks would bias a prevalence estimate. Substack remains deferred until the streaming-data goals are feasible.
 
-- Expanded the artist lists into one row per track–artist credit, extracted artist IDs and names, and counted 133 unique artists across 143 credits. Retained track IDs so credits can be linked back to the 68 eligible tracks.
-- Added a DataFrame reference near the top of the notebook documenting each table’s contents, source, row meaning, and current counts. Included reminders about rerunning dependent cells and preserving index alignment; existing code and comments were left unchanged.
+## November 21, 2026 — Artist analysis, organization, and feasibility priorities
+
+- Expanded the eligible tracks’ artist lists with `explode()` to create `track_artist_df`, with one row per track–artist credit. Extracted artist IDs and names and retained `track_id` to link each credit back to its track; reset only the new table’s index.
+- Counted and independently verified **133 unique artist IDs across 143 credits on 68 tracks**, with no missing artist IDs. Collaborations explain why the artist count exceeds the track count; 37 of the 68 tracks credit multiple artists.
+- Added a DataFrame reference near the top of the notebook documenting each table’s contents, source, row meaning, and counts. Included reminders that derived tables must be rebuilt after upstream changes and that track/album indexes must stay aligned until filtering is complete.
+- Created the project diary and arranged daily entries newest first, with a current-position summary at the top. Committed and pushed the diary (`905db56`) and its ordering correction (`b1ee5e7`).
+- Verified that notebook code runs in order and committed the artist analysis, DataFrame reference, and diary update as `be1bba8` — `feat: analyze artist credits and document EDA dataframes`. Raw JSON remained untracked and unchanged; this commit did not export separate DataFrame files.
+- Considered a Substack to communicate the research, then decided to postpone it until the streaming-data goal is shown to be achievable. Shifted the immediate priority from further descriptive analysis to testing stream-count access.
+- Proposed a small stream-observation test on **5–10 tracks** before attempting the full sample. No stream observations were collected that day; blank displays remain distinct from confirmed under-1,000 counts, and the collection method still needs to be established.
 
 ## November 17, 2026 — Data preparation, dates, and duplicate checks
 
