@@ -2,17 +2,28 @@
 
 A running record of progress, decisions, and the next step. Dates use America/Los_Angeles. Earlier entries were reconstructed from the project conversation and Git history; commit dates may differ from when work began.
 
-## Current position — November 23, 2026
+## Current position — November 24, 2026
 
-- **Working sample:** 68 track entries with release dates between January 1 and September 1, 2026, inclusive. All have ISRCs, with no repeated ISRCs within this filtered sample.
-- **Working tables:** `tracks_df` contains all 100 entries; `album_df` holds their expanded album metadata and converted release dates. `filtered_album_df` and `filtered_tracks_df` contain the matching 68 entries, linked by their retained indexes.
-- **Artist analysis:** `track_artist_df` now contains 143 track–artist credits across the 68 eligible tracks, representing 133 unique artist IDs. Artist IDs are complete.
-- **Next step:** Investigate search-result selection and alternative sampling methods before collecting more counts. The sample must reach low-stream releases; estimating their prevalence requires selection independent of stream counts.
-- **Stream observations:** Five tracks were checked in the Spotify web player on November 23; all displayed more than one million plays. Counts are recorded in `observations.md` and notebook notes.
-- **Still unresolved:** These are search-selected release entries, not a representative census or verified first releases of recordings. Scalable stream collection, access to low-stream tracks, and interpretation of blank displays remain unverified.
+- **Working sample:** 68 eligible track entries from the original 100 EDM search results, released January 1–September 1, 2026, inclusive. No missing or repeated ISRCs within the filtered sample; 143 artist credits represent 133 unique artist IDs.
+- **Stream collection:** Playwright retrieved numerical counts for all 68 pilot tracks, with no missing counts. The latest function reuses one browser, saves after each attempt, and remembers the active session across kernel restarts. Resuming skips saved failures as well as successes.
+- **Pilot results:** No counts below 1,000; three below 50,000, including one below 5,000. Minimum 3,413; median 615,952.5; maximum 20,421,592. The largest plotted group is 100,000–500,000 streams (27 tracks), which is a frequency range, not the mean.
+- **Working tables:** Original metadata and artist tables remain available. `edm_2026_pilot_collection_df` supplies the 68 URLs; `edm_2026_pilot_observations_df` holds track identities, artist names, search genre, counts, UTC timestamps, and statuses. Progress CSVs retain collected observations.
+- **Next step:** Revisit track discovery and investigate subgenre search support. A below-5,000 threshold is under consideration, not an adopted replacement for the original below-1,000 question.
+- **Still unresolved:** Search coverage and sample representativeness, interpretation of blank counts, and reliability beyond this pilot. Low stream counts alone do not establish underexposure; `search_genre` records the query rather than a verified track classification.
+
+## November 24, 2026 — Automated collection, progress saving, and pilot analysis
+
+- Investigated third-party stream-data services, then tested direct collection from a known Spotify URL. The HTML returned by `requests` lacked the play-count element; inspecting the browser identified `data-testid="playcount"`, visible while logged out. Playwright retrieved 2,424,369 for “Carne y Tambor,” matching the manual check.
+- Built and tested a three-track batch function with track IDs, titles, artist names, integer counts, UTC observation times, and retrieval statuses. Added `search_genre` as the source-query label. Preserved each development stage in a separate notebook section and added the observation dataframe to the reference table.
+- Revised the batch function to reuse one browser, then added CSV saving after each attempt using a temporary file before replacing the checkpoint. Added automatic session filenames, an active-session pointer, a fresh-session option, and a check against loading saved tracks outside the supplied dataframe. Saved failures remain unresolved and are skipped on resume, not converted to zero.
+- Recovered the latest notebook edits after an accidental revert. Reviewed installation cells, corrected the resume description, and expanded the dataframe reference. Checkpoints include `3a7e535` (single-track retrieval), `1125ddc` (batch retrieval, pushed), and `9a42c5d` (browser reuse and resumable observations).
+- Ran collection across all 68 eligible pilot tracks with no missing counts. Found no tracks below 1,000, three below 50,000, and one below 5,000. Corrected the earlier conclusion that there were no tracks below 50,000.
+- Examined quantiles and plotted the distribution. Replaced the difficult-to-read log box plot with labeled bars showing counts in explicit stream ranges; the bars total 68 tracks. The 100,000–500,000 range contains the most tracks (27); it is not the mean.
+- Discussed possible future app use and user-selected genres, while keeping discovery separate from count retrieval. Considered a below-5,000 threshold and subgenre searches as future research directions; neither establishes representative coverage or confirms that low-stream tracks are underserved.
 
 ## November 23, 2026 — Public stream observations and sampling limitations
 
+- **Outcome:** Established a five-track manual baseline and identified the sampling problem that motivated the next day’s automation work. These observations remain separate from the later automated counts because they were collected at different times.
 - Created `stream_test_df` from the first five eligible tracks and extracted readable Spotify links. Added it to the DataFrame reference and organized steps 7 (artist credits) and 8 (public stream-count visibility) in the notebook.
 - Opened the five links and manually observed counts in the web player: 4,592,700; 2,418,105; 1,704,503; 7,183,220; and 4,355,925. Recorded each observation with its track identity and date in notebook Markdown cells and the simple `observations.md` table.
 - Chose a Markdown observation log instead of appending rows to an in-memory DataFrame, avoiding duplicate entries when notebook cells rerun. Kept the table concise, with observation date first and viewing method recorded as web player.
